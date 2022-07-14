@@ -53,3 +53,46 @@ data['Markup'] = ( data['SalesPerTransaction'] - data['CostPerTransaction'] ) / 
 
 data['Markup'] = data['ProfitPerTransaction'] / data['CostPerTransaction']
 
+#round function
+#roundmarkup=round(data['Markup'],2)
+
+#Rounding Markup
+data['Markup'] = round(data['Markup'],2)
+
+#Printing the datatype of the day column
+print(data['Day'].dtype)
+
+#Converting Day and Year to String
+#Changing Column's datatype
+
+data['Day']=data['Day'].astype(str)
+data['Year']=data['Year'].astype(str)
+print(data['Day'].dtype)
+print(data['Year'].dtype)
+
+#Concatenating The Day, Month, Year Values.
+my_date = data['Day'] + '-' + data['Month'] + '-' + data['Year']
+data['Date'] = my_date
+
+
+#Using iloc to view specific columns/row
+data.iloc[0]      #displays the row with index = 0
+data.iloc[0:5]    #displays the first 5 rows
+data.iloc[-5:]    #displays the last 5 rows
+
+#Using head to view rows. Note both the line of code displays first five rows.
+data.head(5)
+data.head() 
+
+
+#displays all rows and specific column
+data.iloc[:,1]   # ':' represents all the rows the after comma(,) use any index value to display that particular column.
+
+
+#Brings in 1st row and 0th column value.
+data.iloc[1,0]
+
+#This brings up first 3 rows and columns value.
+data.iloc[0:3,0:3]  
+
+
