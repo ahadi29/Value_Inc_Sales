@@ -15,6 +15,9 @@ data = pd.read_csv('transaction.csv',sep=';')
 #summary of dataset
 data.info()
 
+#description of dataset
+data.describe
+
 # []-list, ()-tuples, {}-set,{'a':'b'}-dictionary, range(1)-range object, var=True -Boolean
 
 # Working with calculation
@@ -95,4 +98,42 @@ data.iloc[1,0]
 #This brings up first 3 rows and columns value.
 data.iloc[0:3,0:3]  
 
+#Using Split to split the Client Keyword's Field.
+#new_variable = column.str.split('sep',expand =True)
 
+split_col = data['ClientKeywords'].str.split(',',expand=True)
+
+#creating the new columns to store the split column values
+data['ClientAge'] = split_col[0]
+data['ClientType'] = split_col[1]
+data['LengthOfContract'] = split_col[2]
+
+#Using the replace function to replace function to replace '[' and ']' with '' in the column values of new split column values.
+data['ClientAge'] = data['ClientAge'].str.replace('[' , '')
+data['LengthOfContract'] = data['LengthOfContract'].str.replace(']' , '')
+
+#Using the lower function to lowercase the ItemDescription
+data['ItemDescription'] = data['ItemDescription'].str.lower()
+
+
+#Using the capiltalize function to capiltalize the first letter of every sentence in the ItemDescription.
+data['ItemDescription'] = data['ItemDescription'].str.capitalize()
+
+#How to Merge Files
+
+#Bringing In the new dataset.
+seasons_data=pd.read_csv('value_inc_seasons.csv',sep=';')
+
+#Merging files: merge_df = pd.merge(df_old, df_new, on='key')
+data=pd.merge(data,seasons_data, on='Month') #Python is going to look at the months in data table then look at the months in seasons_data table and see where they match andn bring in the seasons based on that.Note: It wont bring the month from season file instead it will use the month in data file only and then use the month in both the table to get the value of seasons.
+
+
+#Dropping the columns that we don't need.
+#df=df.drop('columnname' , axix = 1) Note: axix = 1 is for columns and axis = 0 is for row.
+
+data = data.drop('ClientKeywords', axis = 1)
+data = data.drop(['Year','Month','Day'], axis = 1)  # If you want to drop multiple column you can do it this way.
+
+
+#Export into CSV file.
+data.to_csv('ValueInc_Cleaned_File.csv', index = False) # If you want to include the Index column from your df to your csv use 'Index=True' otherwise use 'Index=False'
